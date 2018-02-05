@@ -35,6 +35,15 @@ export default class Autosuggest extends Component {
       }
     },
     onSuggestionSelected: PropTypes.func,
+    onBtnClicked: (props, propName) => {
+      const onBtnClicked = props[propName];
+
+      if (props.sortBtn === true && typeof onBtnClicked !== 'function') {
+        throw new Error(
+          "'onBtnClicked' must be implemented. See: https://github.com/danielyahn/react-autosuggest#onBtnClicked"
+        );
+      }
+    },
     onSuggestionHighlighted: PropTypes.func,
     renderInputComponent: PropTypes.func,
     renderSuggestionsContainer: PropTypes.func,
@@ -81,7 +90,8 @@ export default class Autosuggest extends Component {
     focusInputOnSuggestionClick: PropTypes.bool,
     highlightFirstSuggestion: PropTypes.bool,
     theme: PropTypes.object,
-    id: PropTypes.string
+    id: PropTypes.string,
+    disclaimer: PropTypes.string
   };
 
   static defaultProps = {
@@ -677,6 +687,8 @@ export default class Autosuggest extends Component {
         renderItem={renderSuggestion}
         renderItemData={renderSuggestionData}
         renderSectionTitle={renderSectionTitle}
+        onBtnClicked={this.props.onBtnClicked}
+        disclaimer={this.props.disclaimer}
         getSectionItems={getSectionSuggestions}
         highlightedSectionIndex={highlightedSectionIndex}
         highlightedItemIndex={highlightedSuggestionIndex}
